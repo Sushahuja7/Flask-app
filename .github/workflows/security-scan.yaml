@@ -29,7 +29,19 @@ jobs:
           pip install bandit semgrep
 
       - name: Run Bandit Security Scan (With Custom Plugin)
-        run: bandit -r . --ini bandit.yaml || true
+        run: bandit -r . --ini bandit.yaml | tee bandit-report.txt || true
 
       - name: Run Semgrep Security Scan
-        run: semgrep --config semgrep.yaml --error || true
+        run: semgrep --config semgrep.yaml --error --json > semgrep-report.json || true
+
+      - name: Upload Semgrep Report (Optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: semgrep-report
+          path: semgrep-report.json
+
+      - name: Upload Bandit Report (Optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: bandit-report
+          path: bandit-report.txt
