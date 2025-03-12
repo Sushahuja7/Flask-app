@@ -34,13 +34,14 @@ jobs:
       - name: Run Semgrep Security Scan
         run: semgrep --config semgrep.yaml --error --json > semgrep-report.json || true
 
-      - name: Upload Semgrep Report (Optional)
+      # ✅ Ensure the correct usage of `upload-artifact`
+      - name: Upload Semgrep Report
         uses: actions/upload-artifact@v3
         with:
           name: semgrep-report
           path: semgrep-report.json
 
-      - name: Upload Bandit Report (Optional)
+      - name: Upload Bandit Report
         uses: actions/upload-artifact@v3
         with:
           name: bandit-report
