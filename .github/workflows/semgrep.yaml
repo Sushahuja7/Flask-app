@@ -1,0 +1,16 @@
+rules:
+  - id: python-flask-ssti
+    languages: [python]
+    patterns:
+      - pattern: |
+          Template($INPUT).render()
+    message: "🚨 Possible SSTI detected: Unvalidated user input is used in a Jinja2 Template"
+    severity: ERROR
+
+  - id: python-flask-debug-mode
+    languages: [python]
+    patterns:
+      - pattern: |
+          app.run(debug=True)
+    message: "🚨 Flask app is running in debug mode, which is a security risk!"
+    severity: WARNING
